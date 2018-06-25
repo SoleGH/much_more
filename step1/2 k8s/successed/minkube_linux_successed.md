@@ -18,3 +18,9 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 ```
 curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.28.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
 ```
+
+## 部署
+```
+minikube start --registry-mirror=https://registry.docker-cn.com
+```
+![](../images/minikube_k8s_linux_successed.jpg)
