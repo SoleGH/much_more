@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dcoker-demo-yaml
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: dcoker-demo-yaml
+          image: dennisge/docker_demo
+          ports:
+            - containerPort: 1226

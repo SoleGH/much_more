@@ -10,9 +10,9 @@ $ apt-get update && apt-get upgrade
     kubeadm init –-kubernetes-version=v1.10.0 --pod-network-cidr=10.244.0.0/16  #制定网络插件为flannel
     ```
 * 安装网络组件flannel（官方提供的pod-network的一个）：
-```
-$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
-```
+    ```
+    $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+    ```
 
 * 检测插件是否运行，若运行则 `kube-dns pod` 会自动运行；
     ```

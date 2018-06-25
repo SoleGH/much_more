@@ -64,7 +64,7 @@ deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main
 $ docker info | grep -i cgroup
 $ cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 ```
-*如果不匹配（不太明确作用）
+* 如果不匹配
 ```
 $  --cgroup-driver 
 $ sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
@@ -74,3 +74,5 @@ $ sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/
 $ systemctl daemon-reload
 $ systemctl restart kubelet
 ```
+## [启动k8s](./create_cluster.md)
+
