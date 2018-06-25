@@ -24,9 +24,9 @@ kubectl version
 ### 安装阿里的[minikube-windows-amd64.exe](http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v0.28.0/minikube-windows-amd64.exe?spm=a2c4e.11153940.blogcont221687.28.7dd57733DopMOu&file=minikube-windows-amd64.exe),重命名为minikube.exe,添加到Path；
 ### 启动
 ```
-minikube start --registry-mirror=https://registry.docker-cn.com
+minikube start --registry-mirror=https://registry.docker-cn.com  # 执行前关闭翻墙操作
 ```
-* 若启动出错则删除后重新执行
+* 若启动出错则删除后重新执行start
 ```
 minikube delete
 minikube cache delete
@@ -36,3 +36,7 @@ minikube cache delete
 minikube dashboard #浏览器打开面板
 minikube dashboard --url  #查看面板http地址
 ```
+* dashboard
+![dashboard](../images/dashboard.png)
+* pod   nodes
+![pod and nodes](../images/pod_nodes_minikube.png)

@@ -36,8 +36,8 @@ minikube start --vm-driver=virtualbox
 
 
 ## ERROR
-![minikube_start_error](./images/minikube_start_error.png)
-![win_minikube_start_err](./images/win_minikube_start_err.png)
+![minikube_start_error](../images/minikube_start_error.png)
+![win_minikube_start_err](../images/win_minikube_start_err.png)
 
 
 

@@ -17,7 +17,7 @@
     sudo cat /sys/class/dmi/id/product_uuid
     ```
 * 开启特定端口 
-![开启特定端口](./images/certain_port.png)
+![开启特定端口](../images/certain_port.png)
 * 关闭swap
 ```
 #重启后失效
