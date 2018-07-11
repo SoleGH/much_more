@@ -115,6 +115,28 @@ $ kubectl get pod -o wide #查看服务运行在哪个节点
 * 配置kubelet(同masker,不确定是否必要，不确定node镜像是通过master获取还是直接通过网络，如果是网络则必须配置，待测试)
 * 使用`kubeadm init`生成的`kubeadm join --token......`添加节点
 ```
+root@yangbf-VirtualBox:/etc/default# kubeadm join 172.16.3.170:6443 --token ff8o8p.pidb75sgqt87givu --discovery-token-ca-cert-hash sha256:f1f320c210ca43ca196b2b8a9c53013950fa48d994c4ec750b59a8703a33e988
+[preflight] running pre-flight checks
+I0711 10:05:46.739716   16803 kernel_validator.go:81] Validating kernel version
+I0711 10:05:46.739790   16803 kernel_validator.go:96] Validating kernel config
+[discovery] Trying to connect to API Server "172.16.3.170:6443"
+[discovery] Created cluster-info discovery client, requesting info from "https://172.16.3.170:6443"
+[discovery] Requesting info from "https://172.16.3.170:6443" again to validate TLS against the pinned public key
+[discovery] Cluster info signature and contents are valid and TLS certificate validates against pinned roots, will use API Server "172.16.3.170:6443"
+[discovery] Successfully established connection with API Server "172.16.3.170:6443"
+[kubelet] Downloading configuration for the kubelet from the "kubelet-config-1.11" ConfigMap in the kube-system namespace
+[kubelet] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[preflight] Activating the kubelet service
+[tlsbootstrap] Waiting for the kubelet to perform the TLS Bootstrap...
+[patchnode] Uploading the CRI Socket information "/var/run/dockershim.sock" to the Node API object "yangbf-virtualbox" as an annotation
+
+This node has joined the cluster:
+* Certificate signing request was sent to master and a response
+  was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the master to see this node join the cluster.
 
 ```
 * 在master查看新增节点(获取镜像需要时间，等一会)
