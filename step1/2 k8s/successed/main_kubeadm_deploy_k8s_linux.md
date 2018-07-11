@@ -104,7 +104,7 @@ as root:
 #对应podSubnet: 10.244.0.0/16
 $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
 ```
-### 相关指令
+### 相关指令 [Kubernetes kubectl 命令表](http://docs.kubernetes.org.cn/683.html)
 ```
 $ kubeadm token list
 $ kubectl get nodes
@@ -139,8 +139,117 @@ This node has joined the cluster:
 Run 'kubectl get nodes' on the master to see this node join the cluster.
 
 ```
+* **多次运行`kubeadm join`可能会出现`join`不报错，但是`kubectl describe deployment_name`提示node ip异常，这时需要手动删除网卡**
+```
+# 异常
+ Normal   SandboxChanged          33m (x12 over 35m)   kubelet, yangbf-virtualbox  Pod sandbox changed, it will be killed and re-created.
+  Warning  FailedCreatePodSandBox  15m (x101 over 34m)  kubelet, yangbf-virtualbox  (combined from similar events): Failed create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "b658f6ca1945ac51bb64720191ffd322cccc8b68ca1d5b40cbb6432869bf4104" network for pod "docker-demo-yaml-7bd847cd46-tvxnm": NetworkPlugin cni failed to set up pod "docker-demo-yaml-7bd847cd46-tvxnm_default" network: failed to set bridge addr: "cni0" already has an IP address different from 10.244.2.1/24
+# 处理办法
+$ ifconfig cni0 down
+$ ifconfig flannel.1 down 
+$ brctl delbr cni0
+$ ip link delete flannel.1
+# 然后
+$ kubeadm reset
+$ kubeadm join ...
+
+```
 * 在master查看新增节点(获取镜像需要时间，等一会)
 ```
 $ kubectl get nodes
 ```
-### [部署应用](./deploy_app.md)
+### 部署应用
+* [详情](./deploy_app.md)
+### 部署dashboard
+* 若部署文件有误可用`delete`删除
+```
+$ kubectl delete -f kubernetes-dashboard.yaml
+```
+```
+kubectl create -f
+# 先下载`kubernetes-dashboard.yaml`，修改image源（可自由访问gcr忽略）
+wget  https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+```
+* 修改Dashboard Service 在`spec`下添加`type: NodePort`
+```
+# ------------------- Dashboard Service ------------------- #
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kube-system
+spec:
+  type: NodePort
+  ports:
+    - port: 443
+      targetPort: 8443
+  selector:
+    k8s-app: kubernetes-dashboard
+```
+* 部署dashboard
+```
+$ kubectl create -f kubernetes-dashboard.yaml
+```
+* 授予Dashboard账户集群管理权限
+新建kubernetes-dashboard-admin.rbac.yaml,获取管理集群的admin权限
+```
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard-admin
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kubernetes-dashboard-admin
+  labels:
+    k8s-app: kubernetes-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: kubernetes-dashboard-admin
+  namespace: kube-system
+```
+* 执行
+```
+$ kubectl create -f kubernetes-dashboard-admin.rbac.yaml
+serviceaccount/kubernetes-dashboard-admin created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard-admin created
+```
+* 查询kubernetes-dashboard-admin的token，登录使用
+```
+$kubectl -n kube-system get secret | grep kubernetes-dashboard-admin
+kubernetes-dashboard-admin-token-fzl7f           kubernetes.io/service-account-token   3         2m
+$ kubectl describe -n kube-system secret/kubernetes-dashboard-admin-token-fzl7f
+Name:         kubernetes-dashboard-admin-token-fzl7f
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  kubernetes.io/service-account.name=kubernetes-dashboard-admin
+              kubernetes.io/service-account.uid=4a72573c-84e3-11e8-a36d-00cfe044cbb0
+
+Type:  kubernetes.io/service-account-token
+
+Data
+====
+ca.crt:     1025 bytes
+namespace:  11 bytes
+token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZC1hZG1pbi10b2tlbi1memw3ZiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJrdWJlcm5ldGVzLWRhc2hib2FyZC1hZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjRhNzI1NzNjLTg0ZTMtMTFlOC1hMzZkLTAwY2ZlMDQ0Y2JiMCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTprdWJlcm5ldGVzLWRhc2hib2FyZC1hZG1pbiJ9.O8hBrfYOoLhs8d1DDIDuQLqzk_6eTRduGq2C6Y8zijeUymuQW-SG6raaX_33TSblxtZ4YUo6lSUVBy7oOGuQS4dNeNIhSSYpmkAv3SkYELrtLER2sNeONA1G2i_3Tb97LylT8HIzcp_qaZpuUmz8SgbYUogT_Iguw_pTITTpumAsxCNJEseA8wM3CS82QRjYyF_n_glWh4UNHpRV56SLuU53-29WWhw1prrJtVrQN7q8u5-7KIPP7zpazQQKcJmrbesYDGw01I05o1xdmE95aAKlyiJ-M6RKHRpRZEftMPdbJOdYM9LFOo3UDpCdrSEUNtWbVdzLzuOnujAf66F9HQ
+
+```
+* 登录
+
+```
+$ kubectl proxy
+Starting to serve on 127.0.0.1:8001
+# 浏览器登入[http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/)
+# 用上面查到的`token`登录
+```
