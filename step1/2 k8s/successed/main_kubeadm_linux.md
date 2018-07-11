@@ -85,6 +85,7 @@ Your Kubernetes master has initialized successfully!
 
 To start using your cluster, you need to run the following as a regular user:
 
+  #执行前删除原有配置文件，避免发生配置文件原因引发无法链接服务器问题
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -96,7 +97,15 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 You can now join any number of machines by running the following on each node
 as root:
 
-  kubeadm join 172.16.3.170:6443 --token 4hlb1s.q7ovyg193mdxlkye --discovery-token-ca-cert-hash sha256:5d46438a6ebcf076eb2d793531062fd394aeb3bececcf1a562a247a02bae0a21
-
-
-``
+  kubeadm join 172.16.3.170:6443 --token ff8o8p.pidb75sgqt87givu --discovery-token-ca-cert-hash sha256:f1f320c210ca43ca196b2b8a9c53013950fa48d994c4ec750b59a8703a33e988
+```
+### 安装网络组件
+```
+#对应podSubnet: 10.244.0.0/16
+$ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+```
+### 相关指令
+```
+$ kubeadm token list
+$ kubectl get nodes
+```

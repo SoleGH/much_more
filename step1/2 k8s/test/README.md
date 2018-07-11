@@ -114,6 +114,7 @@ kubeadm join 192.168.11.128:6443 --token nhovtd.z93helpcllvda9yz --discovery-tok
 * 浏览器中输入`https://192.168.11.128:6443/`检验是否安装成功
 
 服务启动后会帮你创建`/etc/kubernetes/`文件夹
+
 5 安装网络组件
 ```
 $ sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
