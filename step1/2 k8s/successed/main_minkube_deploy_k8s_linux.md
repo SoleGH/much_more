@@ -29,4 +29,4 @@ $ minikube status
 ![](../images/minikube_k8s_linux_successed.jpg)
 
 
-## [部署应用](./minikube_deploy_app.md)
+## [部署应用](./deploy_app.md)

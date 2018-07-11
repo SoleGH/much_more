@@ -33,7 +33,7 @@ OK
 $ apt-get install  docker.io
 $ docker version   显示版本信息
 ```
-### 安装kubernetes Master节点
+## 部署kubernetes Master节点
 ```
 $ kubeadm init --kubernetes-version=v1.11.0 --pod-network-cidr=10.244.0.0/16
 ```
@@ -108,4 +108,17 @@ $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Docu
 ```
 $ kubeadm token list
 $ kubectl get nodes
+$ kubectl get pod -o wide #查看服务运行在哪个节点
 ```
+### 添加子节点
+* 安装环境 kubeadm kubelet kubectl docker
+* 配置kubelet(同masker,不确定是否必要，不确定node镜像是通过master获取还是直接通过网络，如果是网络则必须配置，待测试)
+* 使用`kubeadm init`生成的`kubeadm join --token......`添加节点
+```
+
+```
+* 在master查看新增节点(获取镜像需要时间，等一会)
+```
+$ kubectl get nodes
+```
+### [部署应用](./deploy_app.md)
