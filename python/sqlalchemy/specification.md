@@ -87,5 +87,14 @@ session.add(user)
 * 查
 ```python
 session.query(User).all()
+
+# 分页
+session.query(User).filter(User.id == id).all().offset(index).limit(page)
+# in
+session.query(User).filter(User.id.in_(id_tuple)).all()
+# order by
+session.query(User).order_by(desc(User.id)).all()
+# like and count
+session.query(User).filter(Usre.name.like("%ed")).count()
 ```
 
