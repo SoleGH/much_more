@@ -6,5 +6,5 @@
 ## sqlalchemy
 * [总览](./sqlalchemy/README.md)
 ## 进阶应用
-* [总览](./adb/README.md)
+* [总览](./adv/README.md)
 
