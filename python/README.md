@@ -1,9 +1,10 @@
 # python 运用
 ## django
+* [总览](./django/README.md)
 * [orm](./django/orm.md)
 * [更新表结构](./django/README.md)
 ## sqlalchemy
-* [specification](./sqlalchemy/README.md)
+* [总览](./sqlalchemy/README.md)
 ## 进阶应用
-* [adv](./adb/README.md)
+* [总览](./adb/README.md)
 
