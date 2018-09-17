@@ -46,3 +46,13 @@ except EmptyPage:
 ```
 TableClass.objects.filter(Q(column__contains=keyword)).all()
 ```
+* 范围查询
+```
+TableClass = SaasLessee.objects.filter(column__range=(start_datetime, end_datetime)).all()  ## 包含头尾
+TableClass = SaasLessee.objects.filter(column__lte=value).all()  # 小于等于
+TableClass = SaasLessee.objects.filter(column__gte=value).all()  # 大于等于
+```
+* 多条件 Q `'&'`和 `'|'`
+```
+TableClass = SaasLessee.objects.filter(Q(column1__gte=value) | Q(column2__lt=value)).all()
+```

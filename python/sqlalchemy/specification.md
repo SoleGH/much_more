@@ -96,5 +96,7 @@ session.query(User).filter(User.id.in_(id_tuple)).all()
 session.query(User).order_by(desc(User.id)).all()
 # like and count
 session.query(User).filter(Usre.name.like("%ed")).count()
+# between
+session.query(User).filter(Usre.create_time.between(start_time, end_time)).all()  # 包含 start_time,end_time
 ```
 
