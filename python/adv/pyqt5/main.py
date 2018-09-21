@@ -1,19 +1,13 @@
 # *_* uft-8 *_*
-import requests
+import os
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QInputDialog, QApplication, QDesktopWidget, QLabel)
 import sys
 
-
-def get_captcha():
-    url = 'http://192.168.0.16/ygdzh/api/v1/register/query_captcha'
-    res = requests.get(url)
-    res.encoding = 'utf-8'
-    img = res.content
-    with open('captcha.png', 'wb') as file:
-        file.write(img)
-        file.close()
+from common.const import CONST
+from common.dzh_op import get_captcha, get_cookies
 
 
 class CaptchaLabel(QLabel):
@@ -60,15 +54,15 @@ class Example(QWidget):
 
     def init_ui(self):
         # 邮箱录入框
-        self.add_label_edit('email', '邮箱', 0)
-        self.add_label_edit('pw', '密码是', 1)
+        self.add_label_edit('username', '邮箱', 0)
+        self.add_label_edit('password', '密码是', 1)
         self.add_label('captcha', '验证码', 2)
         self.add_edit_box('captcha', 2, 50)
 
         # 按钮
         setattr(self, 'btn', QPushButton('saas login', self))
         self.btn.move(80, 120)
-        self.btn.clicked.connect(self.show_dialog)
+        self.btn.clicked.connect(self._saas_login())
 
         self.show_captcha()
 
@@ -84,15 +78,18 @@ class Example(QWidget):
         captcha_obj.resize(100, 30)
         captcha_obj.move(130, 75)
 
-    def show_dialog(self):
-        text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter your name:')
-
-        if ok:
-            self.le.setText(str(text))
+    def _saas_login(self):
+        pass
+        # username = self.
+        # text, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter your name:')
+        #
+        # if ok:
+        #     self.le.setText(str(text))
 
 
 if __name__ == '__main__':
-    get_captcha()
-    app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
+    # get_captcha()
+    # app = QApplication(sys.argv)
+    # ex = Example()
+    # sys.exit(app.exec_())
+    get_cookies()
