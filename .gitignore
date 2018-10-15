@@ -3,3 +3,10 @@ venv/
 *.pyc
 __pycache__
 .idea/
+*.cpython-35.pyc
+/python/adv/pyqt5/.idea/misc.xml
+/python/adv/pyqt5/.idea/pyqt5.iml
+/python/adv/pyqt5/.idea/workspace.xml
+/python/adv/pyqt5/.vscode/settings.json
+/python/adv/pyqt5/data/log/tool.log
+/python/adv/pyqt5/venv/pip-selfcheck.json
