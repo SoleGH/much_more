@@ -20,5 +20,10 @@ class _CONST(object):
     DZH_SERVER_HOST = "192.168.0.16"
     DZH_SERVER_PORT = 80
 
+    EDIT = 'edit'
+    LABEL = 'label'
+    BUTTON = 'button'
+    MODULE_TYPE = [EDIT, LABEL, BUTTON]
+
 
 CONST = _CONST()
