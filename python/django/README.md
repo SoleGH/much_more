@@ -139,6 +139,7 @@ TableClass.objects.filter(Q(column__contains=keyword)).all()
 result = TableClass.objects.filter(column__range=(start_datetime, end_datetime)).all()  ## 包含头尾
 result = TableClass.objects.filter(column__lte=value).all()  # 小于等于
 result = TableClass.objects.filter(column__gte=value).all()  # 大于等于
+result = TableClass.objects.filter(column__in=value_list).all()
 ```
 
 * 多条件 Q `'&'`和 `'|'`
