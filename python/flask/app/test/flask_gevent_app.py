@@ -1,9 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_restful import Resource
-from tornado.httpserver import HTTPServer
-from tornado.ioloop import IOLoop
-from tornado.wsgi import WSGIContainer
+from gevent.wsgi import WSGIServer
 
 
 app = Flask(__name__)
@@ -13,7 +11,7 @@ api = Api(app)
 class Hello(Resource):
     @staticmethod
     def get():
-        return "Hello World!"
+        return "Hello flask gevent!"
 
 
 def init_route(route_list):
@@ -24,15 +22,9 @@ def init_route(route_list):
 def main():
     route_list = [(Hello,'/hello')]
     init_route(route_list)
-    app.run()
-
-    http_server = HTTPServer(WSGIContainer(app))
-    http_server.listen(5000)
-
-    # http_server.bind(8080)
-    http_server.start(4)
-
-    IOLoop.instance().start()
+    
+    http_server = WSGIServer(('0.0.0.0', int(5000)),app)
+    http_server.serve_forever()
 
 if __name__ == '__main__':
     main()
