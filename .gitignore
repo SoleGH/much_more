@@ -11,3 +11,4 @@ __pycache__
 /python/adv/pyqt5/data/log/tool.log
 /python/adv/pyqt5/venv/pip-selfcheck.json
 workspace.xml
+.DS_Store

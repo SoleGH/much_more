@@ -20,7 +20,7 @@ def connect_db():
     db = connect(host='192.168.0.213',
                  user='root',
                  password='123456',
-                 database='ygdzh_db',
+                 database='test_db',
                  charset='utf8')
     cursor = db.cursor()
     return cursor, db
