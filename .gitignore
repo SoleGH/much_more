@@ -12,3 +12,6 @@ __pycache__
 /python/adv/pyqt5/venv/pip-selfcheck.json
 workspace.xml
 .DS_Store
+secret.py
+*.traineddata
+python/extract_table/ocr/*
