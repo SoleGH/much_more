@@ -5,13 +5,14 @@
 # @Site    :
 # @File    : plotly.py
 # @Software: PyCharm
+import copy
 import time
 
 import numpy
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import requests
+# import requests
 
 
 class TestPlotly:
@@ -126,6 +127,16 @@ class TestPlotly:
         fig.update_traces(marker=dict(symbol="circle", size=10))
 
         fig.show()
+
+        new_fig = copy.copy(fig)
+        new_fig.update_layout(
+            showlegend=False,
+            title=None,
+            xaxis_visible=False,
+            yaxis_visible=False
+        )
+        fig.show()
+        new_fig.show()
 
 
 def test_timeline():
@@ -369,9 +380,14 @@ def test_line():
     # fig.add_trace(go.Scatter(x=df1["size"], y=df1["pct"], line_shape='spline', line_smoothing=1.3))
     # fig.add_trace(go.Scatter(x=df2["size"], y=df2["pct"], line_shape='spline', line_smoothing=0.5, visible=False))
     # fig.add_trace(go.Scatter(x=df2["size"], y=df2["pct"], line_shape='spline', line_smoothing=0.5))
-
-    trace0 = go.Scatter(x=df1["size"], y=df1["pct"], line_shape='spline', line_smoothing=1.3, name="group1")
-    trace1 = go.Scatter(x=df2["size"], y=df2["pct"], line_shape='spline', line_smoothing=0.5, name="group2")
+    fill = 'none'
+    # fill = 'tozeroy'
+    # fill = 'tozerox'
+    # fill = 'tonexty'
+    # fill = 'tonextx'
+    # fill = 'toself'
+    trace0 = go.Scatter(x=df1["size"], y=df1["pct"], line_shape='spline', line_smoothing=1.3, name="group1", fill=fill)
+    trace1 = go.Scatter(x=df2["size"], y=df2["pct"], line_shape='spline', line_smoothing=0.5, name="group2", fill=fill)
     fig.add_trace(trace0)
     fig.add_trace(trace1)
 
@@ -486,15 +502,15 @@ def test_sub():
 
 if __name__ == "__main__":
     # test scatter plots
-    tp = TestPlotly()
-    tp.test_scatter_plots()
+    # tp = TestPlotly()
+    # tp.test_scatter_plots()
 
     # test timeline
     # test_timeline()
 
     # customer_bar()
 
-    # test_line()
+    test_line()
 
     # test_sub()
 
