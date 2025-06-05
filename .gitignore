@@ -15,3 +15,4 @@ workspace.xml
 secret.py
 *.traineddata
 python/extract_table/ocr/*
+python/plotly/hubei_geo.json
