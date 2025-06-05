@@ -6,6 +6,7 @@
 # @File    : plotly.py
 # @Software: PyCharm
 import copy
+import json
 import time
 
 import numpy
@@ -386,8 +387,8 @@ def test_line():
     # fill = 'tonexty'
     # fill = 'tonextx'
     # fill = 'toself'
-    trace0 = go.Scatter(x=df1["size"], y=df1["pct"], line_shape='spline', line_smoothing=1.3, name="group1", fill=fill)
-    trace1 = go.Scatter(x=df2["size"], y=df2["pct"], line_shape='spline', line_smoothing=0.5, name="group2", fill=fill)
+    trace0 = go.Scatter(x=df1["size"], y=df1["pct"], line_shape='spline', line_smoothing=1.3, name="group", fill=fill)
+    trace1 = go.Scatter(x=df2["size"], y=df2["pct"], line_shape='spline', line_smoothing=0.5, name="group", fill=fill)
     fig.add_trace(trace0)
     fig.add_trace(trace1)
 
@@ -500,6 +501,23 @@ def test_sub():
     fig.update_layout(margin=dict(t=10, b=10, r=10, l=10))
     fig.show()
 
+
+def load_json():
+    import json
+    import plotly.graph_objects as go
+    with open("./fig.json", "r") as f:
+        fig_json = json.load(f)
+
+    # 使用 JSON 数据来创建一个新的图形
+    new_fig = go.Figure(fig_json)
+
+    # 显示新的图形
+    # new_fig.show()
+    print("start")
+    new_fig.to_image(format="png")
+    print("end")
+
+
 if __name__ == "__main__":
     # test scatter plots
     # tp = TestPlotly()
@@ -510,9 +528,10 @@ if __name__ == "__main__":
 
     # customer_bar()
 
-    test_line()
+    # test_line()
 
     # test_sub()
+    load_json()
 
 
 
