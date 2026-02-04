@@ -16,3 +16,6 @@ secret.py
 *.traineddata
 python/extract_table/ocr/*
 python/plotly/hubei_geo.json
+python/test.png
+python/test_transparent.png
+python/test_transparent.svg
