@@ -10,3 +10,19 @@ HEALTHCHECK --interval=60s --timeout=10s --start-period=600s --retries=3 \
   CMD curl -f http://127.0.0.1:8000/api/alive || kill $(ps aux | grep '/bin/sh /docker-entrypoint.sh' | grep -v grep | awk '{print $2}')
 # 启动容器时设置`--restart=always`
 ```
+
+
+### 修复Jenkins 拉取远程仓库卡死
+```bash
+# 本质原因是Jenkins未使用本地仓库已有的用户配置，需要手工配置
+cd D:/work/code/server/project
+dir
+# 设置远程仓库
+git remote set-url origin git@bitbucket.org:org/project.git
+# 配置可用的私钥
+set GIT_SSH_COMMAND=ssh -i "D:\dir\id_rsa" -o IdentitiesOnly=yes
+git branch
+git fetch
+git pull
+git log --oneline --max-count=10 
+```
